@@ -1,7 +1,7 @@
 import { THREE } from "/three.js";
-import { loadSprite } from "../helpers.js";
+import { loadSprite } from "/helpers.js";
 
-export const IMAGES = {
+const IMAGES = {
   POLICE: "./images/car-body-police.png",
   TAXI: "./images/car-body-taxi.png",
   WHEEL: "./images/car-wheel.png"
@@ -13,7 +13,7 @@ export class Car {
     this.acceleration = 0;
     Object.assign(this, props);
 
-    this.group = new THREE.Object3D();
+    this.group = new THREE.Group();
 
     const body = loadSprite(IMAGES.POLICE);
     const wheelScale = 0.26;
@@ -34,12 +34,12 @@ export class Car {
 
   update({ acceleration }) {
     this.wheels.forEach(wheel => {
-      wheel.material.rotation += -this.speed * 0.01 * 10;
+      wheel.rotation.z -= this.speed * 0.01 * 10;
     });
 
     const friction = 0.95;
 
-    this.acceleration += acceleration;
+    this.acceleration += acceleration * 0.4;
     this.acceleration *= friction;
 
     this.speed = this.acceleration;
