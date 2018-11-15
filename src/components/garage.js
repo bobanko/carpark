@@ -1,5 +1,5 @@
 import { THREE } from "/three.js";
-import { loadSprite } from "/helpers.js";
+import { createImagePlane, createImageBox } from "/helpers.js";
 
 const IMAGES = {
   BRICK: "./images/brick.png"
@@ -7,40 +7,53 @@ const IMAGES = {
   //   BUTTON: "./images/square-button.png"
 };
 
-function createWall(...position) {
-  const spriteMap = new THREE.TextureLoader().load(IMAGES.BRICK);
-  let geometry = new THREE.BoxGeometry(1, 1, 1);
-  let material = new THREE.MeshBasicMaterial({
-    map: spriteMap,
-    color: 0xffffff
-  });
-  let cube = new THREE.Mesh(geometry, material);
-  cube.position.set(...position);
-  cube.receiveShadow = true;
-  return cube;
-}
-
 export class Garage {
   constructor() {
     this.group = new THREE.Group();
 
     //floor
-    this.group.add(createWall(0, 0, 0));
-    this.group.add(createWall(1, 0, 0));
-    this.group.add(createWall(2, 0, 0));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [0, 0, 0] }));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [1, 0, 0] }));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [2, 0, 0] }));
 
     //roof
-    this.group.add(createWall(0, 2, 0));
-    this.group.add(createWall(1, 2, 0));
-    this.group.add(createWall(2, 2, 0));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [0, 2, 0] }));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [1, 2, 0] }));
+    this.group.add(createImageBox({ href: IMAGES.BRICK, position: [2, 2, 0] }));
 
-    //end-wall
-    this.group.add(createWall(2, 1, 0));
+    //end-wall - wall to collide with
+    this.garageWall = createImageBox({
+      href: IMAGES.BRICK,
+      position: [2, 1, 0]
+    });
+    this.group.add(this.garageWall);
 
-    //side-wall
-    this.group.add(createWall(0, 1, -1));
-    this.group.add(createWall(1, 1, -1));
-    this.group.add(createWall(2, 1, -1));
+    //back-wall
+    this.group.add(
+      createImagePlane({ href: IMAGES.BRICK, position: [0, 1, -0.5] })
+    );
+    this.group.add(
+      createImagePlane({ href: IMAGES.BRICK, position: [1, 1, -0.5] })
+    );
+    this.group.add(
+      createImagePlane({ href: IMAGES.BRICK, position: [2, 1, -0.5] })
+    );
+
+    //front-wall
+    this.group.add(
+      createImagePlane({
+        href: IMAGES.BRICK,
+        position: [0, 1, 0.5],
+        opacity: 0.5
+      })
+    );
+    this.group.add(
+      createImagePlane({
+        href: IMAGES.BRICK,
+        position: [1, 1, 0.5],
+        opacity: 0.5
+      })
+    );
 
     //light
     let light = new THREE.PointLight(0xffffff, 10.8, 18);
