@@ -60,23 +60,57 @@ function update() {
   //todo: check garage vs car collision
 
   let wallCollider = new THREE.Box3().setFromObject(garage.garageWall);
-
+  let parkingSlot = new THREE.Box3().setFromObject(garage.parkingSlot);
   let carCollider = new THREE.Box3().setFromObject(car.group);
 
   let isCarCollided = wallCollider.intersectsBox(carCollider);
+
+  let isCarInside = parkingSlot.intersectsBox(carCollider);
+
+  let isCarParked = parkingSlot.containsBox(carCollider);
   //test
   if (isCarCollided) carCrash();
   //console.log(isCarCrash);
+  if (isCarInside) {
+    garage.carInside();
+  } else {
+    garage.carOutside();
+  }
+
+  let isStopped = Math.abs(car.speed) < 0.02;
+
+  //debug
+  // console.log(
+  //   "parked",
+  //   isCarParked,
+  //   "collided",
+  //   isCarCollided,
+  //   "speed",
+  //   car.speed,
+  //   "stopped",
+  //   isStopped
+  // );
+
+  if (!isCarCollided && isCarParked && isStopped) {
+    carPark();
+  }
+}
+
+let carParked = false;
+function carPark() {
+  carPark = () => 0;
+  carParked = true;
+
+  messageWin.hidden = false;
 }
 
 let carCrashed = false;
 function carCrash() {
   carCrash = () => 0;
+  car.crash();
   carCrashed = true;
   messageFail.hidden = false;
 
-  car.acceleration *= -1;
-  //car.acceleration = 0;
   props.acceleration = 0;
 }
 
@@ -93,7 +127,7 @@ animate();
 document.addEventListener("keydown", onDocumentKeyDown, false);
 function onDocumentKeyDown({ code }) {
   //disable controls after crash
-  if (carCrashed) return;
+  if (carCrashed || carParked) return;
 
   switch (code) {
     case "ArrowLeft":
@@ -124,6 +158,7 @@ function onDocumentKeyUp({ code }) {
 //debug tools
 
 window.scene = scene; //debug
+window.car = car; //debug
 document.addEventListener("wheel", ({ wheelDeltaY }) => {
   camera.translateZ(Math.sign(wheelDeltaY));
   console.log(camera.position.z);
