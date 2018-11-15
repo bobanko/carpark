@@ -91,17 +91,21 @@ function update() {
   //   isStopped
   // );
 
-  if (!isCarCollided && isCarParked && isStopped) {
+  if (!carCrashed && isCarParked && isStopped) {
     carPark();
   }
 }
+
+let messageDelay = 1000;
 
 let carParked = false;
 function carPark() {
   carPark = () => 0;
   carParked = true;
 
-  messageWin.hidden = false;
+  setTimeout(() => {
+    messageWin.hidden = false;
+  }, messageDelay);
 }
 
 let carCrashed = false;
@@ -109,9 +113,11 @@ function carCrash() {
   carCrash = () => 0;
   car.crash();
   carCrashed = true;
-  messageFail.hidden = false;
-
   props.acceleration = 0;
+
+  setTimeout(() => {
+    messageFail.hidden = false;
+  }, messageDelay);
 }
 
 function animate() {
