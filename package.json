@@ -1,0 +1,23 @@
+{
+  "name": "carpark",
+  "version": "1.0.0",
+  "description": "carpark is my test task for samsung rnd in ukraine",
+  "main": "index.js",
+  "scripts": {
+    "dev": "http-server ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bobanko/carpark.git"
+  },
+  "author": "mishko.vladimir@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bobanko/carpark/issues"
+  },
+  "homepage": "https://github.com/bobanko/carpark#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}
