@@ -6,6 +6,7 @@ import { Road } from "./components/road.js";
 import { Garage } from "./components/garage.js";
 
 var scene = new THREE.Scene();
+scene.background = new THREE.Color("#c2d4d1");
 
 var camera = new THREE.PerspectiveCamera(
   45, // 75,
@@ -21,6 +22,12 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.BasicShadowMap;
 
 document.body.appendChild(renderer.domElement);
+
+const messageFail = document.querySelector(".message-fail");
+const messageWin = document.querySelector(".message-win");
+
+messageFail.hidden = true;
+messageWin.hidden = true;
 
 let car = new Car();
 scene.add(car.group);
@@ -40,9 +47,7 @@ const props = {
   acceleration: 0
 };
 
-function animate() {
-  requestAnimationFrame(animate);
-
+function update() {
   updatableComponents.forEach(component => {
     component.update(props);
   });
@@ -52,6 +57,34 @@ function animate() {
   camera.position.x = x;
   camera.position.y = y;
 
+  //todo: check garage vs car collision
+
+  let wallCollider = new THREE.Box3().setFromObject(garage.garageWall);
+
+  let carCollider = new THREE.Box3().setFromObject(car.group);
+
+  let isCarCollided = wallCollider.intersectsBox(carCollider);
+  //test
+  if (isCarCollided) carCrash();
+  //console.log(isCarCrash);
+}
+
+let carCrashed = false;
+function carCrash() {
+  carCrash = () => 0;
+  carCrashed = true;
+  messageFail.hidden = false;
+
+  car.acceleration *= -1;
+  //car.acceleration = 0;
+  props.acceleration = 0;
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+
+  update();
+
   renderer.render(scene, camera);
 }
 animate();
@@ -59,7 +92,8 @@ animate();
 //todo: somehow wrap eventlisteners?
 document.addEventListener("keydown", onDocumentKeyDown, false);
 function onDocumentKeyDown({ code }) {
-  console.log(code);
+  //disable controls after crash
+  if (carCrashed) return;
 
   switch (code) {
     case "ArrowLeft":
@@ -77,7 +111,7 @@ function onDocumentKeyDown({ code }) {
 
 document.addEventListener("keyup", onDocumentKeyUp, false);
 function onDocumentKeyUp({ code }) {
-  console.log(code);
+  //console.log(code);
 
   switch (code) {
     case "ArrowLeft":
