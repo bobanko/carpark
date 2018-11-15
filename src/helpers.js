@@ -1,15 +1,39 @@
-export function loadSprite(href, scale = 1) {
+export function createImagePlane({
+  href,
+  position = [0, 0, 0],
+  scale = 1,
+  opacity = 1
+}) {
   const spriteMap = new THREE.TextureLoader().load(href);
   var geometry = new THREE.PlaneGeometry(1, 1, 1);
   let material = new THREE.MeshBasicMaterial({
     map: spriteMap,
     color: 0xffffff,
-    transparent: true
+    transparent: true,
+    opacity
   });
 
-  let part = new THREE.Mesh(geometry, material);
+  let plane = new THREE.Mesh(geometry, material);
+  plane.scale.set(scale, scale, scale);
+  plane.position.set(...position);
+  plane.receiveShadows = true;
 
-  part.scale.set(scale, scale, scale);
+  return plane;
+}
 
-  return part;
+export function createImageBox({ href, position = [0, 0, 0], scale = 1 }) {
+  const spriteMap = new THREE.TextureLoader().load(href);
+  let geometry = new THREE.BoxGeometry(1, 1, 1);
+  let material = new THREE.MeshBasicMaterial({
+    map: spriteMap,
+    color: 0xffffff
+    //transparent: true
+  });
+
+  let cube = new THREE.Mesh(geometry, material);
+  cube.position.set(...position);
+  cube.scale.set(scale, scale, scale);
+  cube.receiveShadows = true;
+
+  return cube;
 }

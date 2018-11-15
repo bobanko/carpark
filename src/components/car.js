@@ -1,5 +1,5 @@
 import { THREE } from "/three.js";
-import { loadSprite } from "/helpers.js";
+import { createImagePlane } from "/helpers.js";
 
 const IMAGES = {
   POLICE: "./images/car-body-police.png",
@@ -15,15 +15,24 @@ export class Car {
 
     this.group = new THREE.Group();
 
-    const body = loadSprite(IMAGES.POLICE);
+    const body = createImagePlane({ href: IMAGES.POLICE });
     const wheelScale = 0.26;
-    const wheel1 = loadSprite(IMAGES.WHEEL, wheelScale);
-    const wheel2 = loadSprite(IMAGES.WHEEL, wheelScale);
+
+    this.collider = body.geometry;
 
     const wheelXDiff = 0.263;
     const wheelY = -0.35;
-    wheel1.position.set(-wheelXDiff, wheelY, 0);
-    wheel2.position.set(wheelXDiff, wheelY, 0);
+
+    const wheel1 = createImagePlane({
+      href: IMAGES.WHEEL,
+      scale: wheelScale,
+      position: [-wheelXDiff, wheelY, 0]
+    });
+    const wheel2 = createImagePlane({
+      href: IMAGES.WHEEL,
+      scale: wheelScale,
+      position: [wheelXDiff, wheelY, 0]
+    });
 
     this.wheels = [wheel1, wheel2];
 
