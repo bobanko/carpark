@@ -10,6 +10,8 @@ const IMAGES = {
 export class Garage {
   constructor() {
     this.group = new THREE.Group();
+    this.group.castShadow = true;
+    this.group.receiveShadow = true;
 
     //floor
     this.group.add(createImageBox({ href: IMAGES.BRICK, position: [0, 0, 0] }));
@@ -37,6 +39,9 @@ export class Garage {
     );
 
     this.parkWall = new THREE.Group();
+    this.parkWall.castShadow = true;
+    this.parkWall.receiveShadow = true;
+    // this.parkWall.visible = false;
 
     this.parkWall.add(
       createImagePlane({
@@ -58,19 +63,21 @@ export class Garage {
     this.group.add(this.parkingSlot);
 
     //light
-    let light = new THREE.PointLight(0xffffff, 10.8, 18);
-    light.castShadow = true;
-    light.position.set(-10, 0, 0);
-    this.group.add(light);
-    let helper = new THREE.PointLightHelper(light, 0.1);
-    this.group.add(helper);
-    //placement
-    this.group.position.set(10, -1, 0);
+
+    let garageLight = new THREE.PointLight(0xffffff, 1, 10);
+    garageLight.castShadow = true;
+    garageLight.position.set(0, 1, 0.9);
+    garageLight.decay = 0;
+
+    this.group.add(garageLight);
+
+    window.garageLight = garageLight;
+    // garageLight.visible = false;
   }
 
   carInside() {
     this.parkWall.children.forEach(slot => {
-      slot.material.opacity = 0.4;
+      slot.material.opacity = 0.6;
     });
   }
 
