@@ -55,8 +55,7 @@ export class Garage {
     );
     this.group.add(this.parkWall);
 
-    let geometry = new THREE.BoxGeometry(2, 1.2, 1);
-    this.parkingSlot = new THREE.Mesh(geometry);
+    this.parkingSlot = new THREE.Mesh(new THREE.BoxGeometry(2, 1.2, 1));
     this.parkingSlot.position.set(0.5, 1, 0);
     this.parkingSlot.visible = false;
 
