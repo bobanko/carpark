@@ -1,5 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Russo+One");
 
+@import "message-box.css";
+@import "control-box.css";
+
 body {
   margin: 0;
   overflow: hidden;
@@ -8,33 +11,4 @@ body {
 canvas {
   width: 100%;
   height: 100%;
-}
-
-.message-box {
-  z-index: 1;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-
-  /* added this to prevent chrome shitty behavior with rendering dom over canvas */
-  background-color: #00000010;
-
-  height: 100vh;
-  width: 100vw;
-
-  font-weight: bold;
-
-  font-size: 15vmin;
-
-  -webkit-text-stroke: 1px black;
-  text-transform: uppercase;
-}
-.message-fail {
-  color: red;
-}
-
-.message-win {
-  color: white;
 }

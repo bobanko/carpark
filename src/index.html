@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CarPark</title>
 
@@ -10,8 +10,13 @@
   </head>
   <body>
     <div class="message-box">
-      <div class="message-fail">потрачено</div>
-      <div class="message-win">успех</div>
+      <div class="message-fail" hidden>потрачено</div>
+      <div class="message-win" hidden>успех</div>
+    </div>
+    <div class="control-box">
+      <button class="button-left"></button>
+      <button class="button-restart"></button>
+      <button class="button-right"></button>
     </div>
     <script src="./three.min.js"></script>
     <script type="module" src="./index.js"></script>
