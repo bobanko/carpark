@@ -1,5 +1,5 @@
-import { THREE } from "/three.js";
-import { createImagePlane, createImageBox } from "/helpers.js";
+import { THREE } from "../libs/three.js";
+import { createImagePlane, createImageBox } from "../helpers.js";
 
 const IMAGES = {
   BRICK: "./images/brick.png",

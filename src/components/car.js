@@ -1,5 +1,5 @@
-import { THREE } from "/three.js";
-import { createImagePlane } from "/helpers.js";
+import { THREE } from "../libs/three.js";
+import { createImagePlane } from "../helpers.js";
 
 const IMAGES = {
   CARS: [
