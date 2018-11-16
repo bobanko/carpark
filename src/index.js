@@ -1,5 +1,5 @@
 //import * as THREE from "./three";
-import { THREE } from "/three.js";
+import { THREE } from "./three.js";
 
 import { Car } from "./components/car.js";
 import { Road } from "./components/road.js";
