@@ -29,11 +29,8 @@ button {
   border: none;
   background-color: transparent;
 }
-
-@media (orientation: portrait) {
-  button {
-    margin-bottom: 20vmin;
-  }
+.control-box.is-mobile > button {
+  margin-bottom: 20vmin;
 }
 
 .button-left {
