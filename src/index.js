@@ -30,14 +30,15 @@ const messageFail = document.querySelector(".message-fail");
 const messageWin = document.querySelector(".message-win");
 
 let car = new Car();
-car.group.position.x = 10;
+car.group.position.x = 2; //10;
 scene.add(car.group);
 //todo: get rid of groups?
-let road = new Road({ length: 10 });
+const roadLength = 20;
+let road = new Road({ length: roadLength });
 scene.add(road.group);
 
 let garage = new Garage();
-garage.group.position.set(10, -1, 0);
+garage.group.position.set(roadLength, -1, 0);
 scene.add(garage.group);
 //ambient light
 let ambient = new THREE.AmbientLight(0xffffff, 0.9);
@@ -71,6 +72,7 @@ const props = {
 };
 
 function update() {
+  scene.updateMatrixWorld(); //for proper collision detection
   updatableComponents.forEach(component => {
     component.update(props);
   });
@@ -84,10 +86,19 @@ function update() {
   //todo: check garage vs car collision
 
   let wallCollider = new THREE.Box3().setFromObject(garage.garageWall);
+  let startWallCollider = new THREE.Box3().setFromObject(
+    road.roadStartCollider
+  );
   let parkingSlot = new THREE.Box3().setFromObject(garage.parkingSlot);
   let carCollider = new THREE.Box3().setFromObject(car.group);
 
-  let isCarCollided = wallCollider.intersectsBox(carCollider);
+  let crashColliders = [wallCollider, startWallCollider];
+
+  let isCarCollided = !crashColliders.every(
+    col => !col.intersectsBox(carCollider)
+  );
+
+  //let isCarCollided = wallCollider.intersectsBox(carCollider);
 
   let isCarInside = parkingSlot.intersectsBox(carCollider);
 
@@ -116,7 +127,7 @@ function update() {
   // );
 
   if (!carCrashed && isCarParked && isStopped) {
-    // carPark();
+    carPark();
   }
 }
 
@@ -182,6 +193,10 @@ function onDocumentKeyUp({ code }) {
       props.acceleration = 0;
       break;
   }
+}
+//check if is mobile device
+if (navigator.maxTouchPoints) {
+  document.querySelector(".control-box").classList.add("is-mobile");
 }
 
 document.querySelector(".button-restart").addEventListener("click", () => {
