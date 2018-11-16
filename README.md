@@ -1,8 +1,7 @@
 # carpark
 ## carpark is my test task for samsung rnd ukraine (using Three.js)
 
-
-![Screenshot](https://github.com/bobanko/carPark/blob/master/screenshot.png)
+![Screenshot](https://github.com/bobanko/carpark/blob/master/screenshot.PNG)
 
 
 ## Installation
