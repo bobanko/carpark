@@ -4,6 +4,7 @@
   "description": "carpark is my test task for samsung rnd in ukraine",
   "main": "index.js",
   "scripts": {
+    "start": "npm run dev",
     "dev": "http-server ./src -c-1"
   },
   "repository": {
