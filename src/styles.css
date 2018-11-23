@@ -3,6 +3,10 @@
 @import "message-box.css";
 @import "control-box.css";
 
+html {
+  position: fixed;
+}
+
 body {
   margin: 0;
   overflow: hidden;
