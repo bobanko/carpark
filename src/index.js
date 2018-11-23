@@ -196,12 +196,26 @@ function onDocumentKeyUp({ code }) {
 }
 //check if is mobile device
 if (navigator.maxTouchPoints) {
-  document.querySelector(".control-box").classList.add("is-mobile");
+  //document.querySelector(".control-box").classList.add("is-mobile");
 }
 
 document.querySelector(".button-restart").addEventListener("click", () => {
   window.location.reload();
 });
+
+//apply resize for canvas
+
+window.addEventListener("resize", onWindowResize, false);
+
+function onWindowResize() {
+  var width = window.innerWidth;
+  var height = window.innerHeight;
+
+  camera.aspect = width / height;
+  camera.updateProjectionMatrix();
+
+  renderer.setSize(width, height);
+}
 
 //left
 document.querySelector(".button-left").addEventListener("mousedown", () => {
