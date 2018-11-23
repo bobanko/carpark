@@ -28,6 +28,7 @@ export class Car {
     let carImg = IMAGES.CARS[Math.floor(Math.random() * IMAGES.CARS.length)];
 
     const body = createImagePlane({ href: carImg.BODY });
+    this.body = body;
 
     const wheelScale = 0.26;
     this.group.add(
@@ -82,6 +83,8 @@ export class Car {
     this.wheels.forEach(wheel => {
       wheel.rotation.z -= this.speed * 0.01 * 10;
     });
+
+    this.body.rotation.z = this.speed * 0.01;
 
     const friction = 0.95;
 
