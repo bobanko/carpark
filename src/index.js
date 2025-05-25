@@ -24,9 +24,6 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 document.body.appendChild(renderer.domElement);
 
-const messageFail = document.querySelector(".message-fail");
-const messageWin = document.querySelector(".message-win");
-
 let car = new Car();
 car.group.position.x = 2; //10;
 scene.add(car.group);
@@ -147,6 +144,7 @@ function showWinMessage() {
   );
 
   $msgWin.hidden = false;
+  $stars.classList.add("blinking");
 }
 
 function showFailMessage() {
