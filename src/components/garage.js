@@ -3,7 +3,7 @@ import { createImagePlane, createImageBox } from "../helpers.js";
 
 const IMAGES = {
   BRICK: "./images/brick.png",
-  SIGN: "./images/sign.png"
+  SIGN: "./images/sign.png",
   //   BUTTON: "./images/square-button.png"
 };
 
@@ -26,7 +26,7 @@ export class Garage {
     //end-wall - wall to collide with
     this.garageWall = createImageBox({
       href: IMAGES.BRICK,
-      position: [2, 1, 0]
+      position: [2, 1, 0],
     });
     this.group.add(this.garageWall);
 
@@ -46,11 +46,11 @@ export class Garage {
     this.parkWall.add(
       createImagePlane({
         href: IMAGES.SIGN,
-        position: [0, 1, 0.5]
+        position: [0, 1, 0.5],
       }),
       createImagePlane({
         href: IMAGES.SIGN,
-        position: [1, 1, 0.5]
+        position: [1, 1, 0.5],
       })
     );
     this.group.add(this.parkWall);
@@ -67,6 +67,10 @@ export class Garage {
     garageLight.castShadow = true;
     garageLight.position.set(0, 1, 0.9);
     garageLight.decay = 0;
+    // fix shadows
+    garageLight.shadow.radius = 4;
+    garageLight.shadow.mapSize.width = 1024;
+    garageLight.shadow.mapSize.height = 1024;
 
     this.group.add(garageLight);
 
@@ -75,13 +79,13 @@ export class Garage {
   }
 
   carInside() {
-    this.parkWall.children.forEach(slot => {
+    this.parkWall.children.forEach((slot) => {
       slot.material.opacity = 0.6;
     });
   }
 
   carOutside() {
-    this.parkWall.children.forEach(slot => {
+    this.parkWall.children.forEach((slot) => {
       slot.material.opacity = 1;
     });
   }

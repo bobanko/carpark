@@ -1,45 +1,49 @@
-.message-box {
+@font-face {
+  font-family: "Pricedown";
+  src: url("./fonts/Pricedown-Rus/pricedownrus.ttf");
+}
+
+.message-overlay {
   z-index: 1;
   position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 
-  /* added this to prevent chrome shitty behavior with rendering dom over canvas */
-  background-color: #00000010;
+  display: flex;
 
   height: 100%;
   width: 100%;
 
-  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.message-box {
+  /* added this to prevent chrome shitty behavior with rendering dom over canvas */
+  /* background-color: #00000010; */
+
+  display: flex;
+  flex: 1 100%;
+  align-items: center;
+  flex-direction: column;
+
+  font-family: "Pricedown", sans-serif;
 
   font-size: 15vmin;
 
-  -webkit-text-stroke: 1px black;
+  -webkit-text-stroke: 5px black;
   text-transform: uppercase;
-}
 
-.message-fail,
-.message-win {
-  display: block;
-  position: absolute;
-  opacity: 1;
-  transform: scale(1);
-  transition: 1000ms ease-in-out;
-}
-
-.message-fail[hidden],
-.message-win[hidden] {
-  display: block;
-  opacity: 0;
-  transform: scale(0.4);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
 .message-fail {
-  color: red;
+  color: #e71b2a;
 }
 
 .message-win {
   color: white;
+}
+
+[hidden] {
+  display: none;
 }

@@ -9,9 +9,18 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="message-box">
-      <div class="message-fail" hidden>потрачено</div>
-      <div class="message-win" hidden>успех</div>
+    <div id="$msgOverlay" class="message-overlay" hidden>
+      <div id="$msgWin" hidden class="message-box message-win">
+        <span>Успех!</span>
+        <span>уважение +</span>
+        <!-- <span>mission passed!</span> -->
+        <!-- <span>respect +</span> -->
+      </div>
+
+      <div id="$msgFail" hidden class="message-box message-fail">
+        <!-- <span>wasted</span> -->
+        <span>потрачено</span>
+      </div>
     </div>
     <div class="control-box">
       <button class="button-left"></button>

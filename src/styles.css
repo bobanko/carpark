@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css?family=Russo+One");
-
 @import "message-box.css";
 @import "control-box.css";
 
@@ -10,7 +8,6 @@ html {
 body {
   margin: 0;
   overflow: hidden;
-  font-family: "Russo One", sans-serif;
 }
 canvas {
   width: 100%;

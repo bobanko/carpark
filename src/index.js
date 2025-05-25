@@ -5,8 +5,6 @@ import { Car } from "./components/car.js";
 import { Road } from "./components/road.js";
 import { Garage } from "./components/garage.js";
 
-const messageDelay = 200;
-
 var scene = new THREE.Scene();
 scene.background = new THREE.Color("#c2d4d1");
 
@@ -22,7 +20,7 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 //renderer.shadowMap.type = THREE.BasicShadowMap;
-renderer.shadowMapType = THREE.PCFSoftShadowMap;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 document.body.appendChild(renderer.domElement);
 
@@ -44,36 +42,17 @@ scene.add(garage.group);
 let ambient = new THREE.AmbientLight(0xffffff, 0.9);
 window.ambient = ambient;
 scene.add(ambient);
-//directional light
-
-var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-window.directionalLight = directionalLight;
-//scene.add(directionalLight);
-
-{
-  let light = new THREE.DirectionalLight(0xffffff, 1, 100);
-  light.position.set(0, 1, 0); //default; light shining from top
-  light.castShadow = true; // default false
-  scene.add(light);
-
-  //Set up shadow properties for the light
-  light.shadow.mapSize.width = 512; // default
-  light.shadow.mapSize.height = 512; // default
-  light.shadow.camera.near = 0.5; // default
-  light.shadow.camera.far = 500; // default
-  window.direct = light;
-}
 
 scene.fog = new THREE.Fog(new THREE.Color(0x000000), 0.0025, 100);
 
 const updatableComponents = [car];
 const props = {
-  acceleration: 0
+  acceleration: 0,
 };
 
 function update() {
   scene.updateMatrixWorld(); //for proper collision detection
-  updatableComponents.forEach(component => {
+  updatableComponents.forEach((component) => {
     component.update(props);
   });
 
@@ -95,7 +74,7 @@ function update() {
   let crashColliders = [wallCollider, startWallCollider];
 
   let isCarCollided = !crashColliders.every(
-    col => !col.intersectsBox(carCollider)
+    (col) => !col.intersectsBox(carCollider)
   );
 
   //let isCarCollided = wallCollider.intersectsBox(carCollider);
@@ -136,9 +115,7 @@ function carPark() {
   carPark = () => 0;
   carParked = true;
 
-  setTimeout(() => {
-    messageWin.hidden = false;
-  }, messageDelay);
+  showWinMessage();
 }
 
 let carCrashed = false;
@@ -148,9 +125,85 @@ function carCrash() {
   carCrashed = true;
   props.acceleration = 0;
 
-  setTimeout(() => {
-    messageFail.hidden = false;
-  }, messageDelay);
+  showFailMessage();
+}
+
+function showWinMessage() {
+  $msgOverlay.hidden = false;
+  $msgOverlay.animate(
+    [
+      // keyframes
+      { opacity: 0 },
+      {
+        opacity: 1,
+      },
+    ],
+    {
+      // timing options
+      duration: 500,
+      fill: "both",
+      easing: "ease-in-out",
+    }
+  );
+
+  $msgWin.hidden = false;
+}
+
+function showFailMessage() {
+  // camera.translateZ = camera.translateZ - 2;
+
+  $msgOverlay.hidden = false;
+  $msgOverlay.animate(
+    [
+      // keyframes
+      { opacity: 0 },
+      {
+        opacity: 1,
+      },
+    ],
+    {
+      // timing options
+      duration: 500,
+      fill: "both",
+      easing: "ease-in-out",
+    }
+  );
+
+  $msgOverlay.animate(
+    [
+      // keyframes
+      {},
+      {
+        backdropFilter: "blur(4px) grayscale(1)",
+      },
+    ],
+    {
+      // timing options
+
+      duration: 3000,
+      fill: "both",
+      easing: "ease-in-out",
+    }
+  );
+
+  $msgFail.hidden = false;
+  [...$msgFail.children].forEach((cn) =>
+    cn.animate(
+      [
+        // keyframes
+        { opacity: 0 },
+        {
+          opacity: 1,
+        },
+      ],
+      {
+        // timing options
+        duration: 1000,
+        fill: "both",
+        easing: "ease-in-out",
+      }
+    )
+  );
 }
 
 function animate() {
